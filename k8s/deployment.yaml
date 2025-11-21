@@ -1,1 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-demo
+  namespace: mznns
+  labels:
+    app: nginx-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-demo
+  template:
+    metadata:
+      labels:
+        app: nginx-demo
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "mzn-role"
+        vault.hashicorp.com/agent-inject-secret-config: "mzn/data/config"
+    spec:
+      serviceAccountName: mzn-sa
+      containers:
+        - name: nginx
+          image: <sera mis à jour par GitLab CI>
+          ports:
+            - containerPort: 80
 
